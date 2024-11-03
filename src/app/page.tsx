@@ -198,9 +198,10 @@ export default function Home() {
 			<p className=" text-center border xsm:w-5/6 sm:w-80 caption-top text-2xl mb-5 py-2 bg-sky-800 rounded text-white">
 				Tic Tac Toe
 			</p>
-			<div className="bg-white flex gap-x-10 border text-1.9xl my-3 px-5 xsm:w-5/6 sm:w-80">
-				<span className="bg-slate-50">Level: </span>
+			<div className="bg-white flex gap-x-10 border text-1.9xl my-3 px-5 xsm:w-5/6 sm:w-80 xsm:py-3">
+				<span className="bg-slate-50 xsm:text-2xl md:text-base">Level: </span>
 				<select
+					className="xsm:text-2xl md:text-base"
 					name=""
 					id=""
 					defaultValue={0}
@@ -215,7 +216,7 @@ export default function Home() {
 			</div>
 			<table className="bg-white border-collapse xsm:w-5/6 sm:w-80 xsm:h-80 sm:h-80 shadow-lg">
 				<caption
-					className={`border text-left caption-top text-1.9xl mb-5 pl-5 py-2 ${winner && isGameOver && lastInput === 'X' && 'bg-green-500'} ${winner && isGameOver && lastInput === 'O' && 'bg-red-100'} ${!winner && isGameOver && 'bg-yellow-100'} ${!isGameOver && 'bg-white'}`}
+					className={`border xsm:py-3 xsm:text-2xl md:text-base text-left caption-top text-1.9xl mb-5 pl-5 py-2 ${winner && isGameOver && lastInput === 'X' && 'bg-green-500'} ${winner && isGameOver && lastInput === 'O' && 'bg-red-100'} ${!winner && isGameOver && 'bg-yellow-100'} ${!isGameOver && 'bg-white'}`}
 				>
 					Status:{' '}
 					{!lastInput
@@ -298,7 +299,10 @@ export default function Home() {
 					</tr>
 				</tbody>
 			</table>
-			<button className="mt-3 border px-5 py-2 bg-sky-900 rounded text-white" onClick={handleReset}>
+			<button
+				className="mt-3 xsm:text-2xl md:text-base border px-5 py-2 bg-sky-900 rounded text-white"
+				onClick={handleReset}
+			>
 				Start Again
 			</button>
 		</div>
