@@ -193,12 +193,12 @@ export default function Home() {
 	return (
 		<div
 			className={`${inter.variable} font-sans flex flex-col items-center justify-center h-screen 
-			bg-neutral-50 `}
+			 bg-teal-100`}
 		>
-			<p className="text-center border xsm:w-5/6 sm:w-80 caption-top text-2xl mb-5 py-2 bg-sky-800 rounded text-white">
+			<p className=" text-center border xsm:w-5/6 sm:w-80 caption-top text-2xl mb-5 py-2 bg-sky-800 rounded text-white">
 				Tic Tac Toe
 			</p>
-			<div className=" flex gap-x-10 border text-1.9xl my-3 px-5 xsm:w-5/6 sm:w-80">
+			<div className="bg-white flex gap-x-10 border text-1.9xl my-3 px-5 xsm:w-5/6 sm:w-80">
 				<span className="bg-slate-50">Level: </span>
 				<select
 					name=""
@@ -213,9 +213,9 @@ export default function Home() {
 					<option value={1}>Advanced</option>
 				</select>
 			</div>
-			<table className="border-collapse xsm:w-5/6 sm:w-80 xsm:h-80 sm:h-80 shadow-lg">
+			<table className="bg-white border-collapse xsm:w-5/6 sm:w-80 xsm:h-80 sm:h-80 shadow-lg">
 				<caption
-					className={`border text-left caption-top text-1.9xl mb-5 pl-5 py-2 ${winner && isGameOver && lastInput === 'X' && 'bg-green-500'} ${winner && isGameOver && lastInput === 'O' && 'bg-red-100'} ${!winner && isGameOver && 'bg-yellow-100'}`}
+					className={`border text-left caption-top text-1.9xl mb-5 pl-5 py-2 ${winner && isGameOver && lastInput === 'X' && 'bg-green-500'} ${winner && isGameOver && lastInput === 'O' && 'bg-red-100'} ${!winner && isGameOver && 'bg-yellow-100'} ${!isGameOver && 'bg-white'}`}
 				>
 					Status:{' '}
 					{!lastInput
