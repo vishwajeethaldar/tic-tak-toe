@@ -1,5 +1,11 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
+import { Inter } from 'next/font/google';
+
+const inter = Inter({
+	subsets: ['latin'],
+	variable: '--font-inter',
+});
 
 interface InitialStateValuesInterface {
 	box1: string | null;
@@ -114,31 +120,6 @@ export default function Home() {
 		[],
 	);
 
-	// function computerMove() {
-	// 	const emptyBoxes = Object.keys(boxValues).filter(
-	// 		(key) => !boxValues[key as keyof InitialStateValuesInterface],
-	// 	) as (keyof InitialStateValuesInterface)[];
-
-	// 	if (emptyBoxes.length === 0 || isGameOver) return;
-
-	// 	let bestScore = -Infinity;
-	// 	let bestMove: keyof InitialStateValuesInterface | null = null;
-
-	// 	for (const boxId of emptyBoxes) {
-	// 		const newState = { ...boxValues, [boxId]: 'O' }; // Simulate the computer's move
-	// 		const score = minimax(newState, 0, false); // Check the score for the computer's move
-
-	// 		if (score > bestScore) {
-	// 			bestScore = score;
-	// 			bestMove = boxId;
-	// 		}
-	// 	}
-
-	// 	if (bestMove) {
-	// 		handlUpdateValue(bestMove);
-	// 	}
-	// }
-
 	function handleReset() {
 		setIsGameOver(false);
 		setLastInput(null);
@@ -182,7 +163,11 @@ export default function Home() {
 		function checkForWinner() {
 			for (const [a, b, c] of winningCombinations) {
 				if (boxValues[a] && boxValues[a] === boxValues[b] && boxValues[a] === boxValues[c]) {
-					setWinner(boxValues[a]);
+					setWinner(
+						boxValues[a] === 'X'
+							? 'Congratulation! You won the Match.'
+							: "Computer won the match, Let's try again",
+					);
 					setIsGameOver(true);
 					return true;
 				}
@@ -203,134 +188,63 @@ export default function Home() {
 				}, 100);
 			}
 		}
-
-		// function handleTest() {
-		// 	if (
-		// 		boxValues.box1 &&
-		// 		boxValues.box2 &&
-		// 		boxValues.box3 &&
-		// 		boxValues.box1 === boxValues.box2 &&
-		// 		boxValues.box2 === boxValues.box3
-		// 	) {
-		// 		setIsGameOver(true);
-		// 		setWinner(boxValues.box3);
-		// 	} else if (
-		// 		boxValues.box4 &&
-		// 		boxValues.box5 &&
-		// 		boxValues.box6 &&
-		// 		boxValues.box4 === boxValues.box5 &&
-		// 		boxValues.box5 === boxValues.box6
-		// 	) {
-		// 		setIsGameOver(true);
-		// 		setWinner(boxValues.box6);
-		// 	} else if (
-		// 		boxValues.box7 &&
-		// 		boxValues.box8 &&
-		// 		boxValues.box9 &&
-		// 		boxValues.box7 === boxValues.box8 &&
-		// 		boxValues.box8 === boxValues.box9
-		// 	) {
-		// 		setIsGameOver(true);
-		// 		setWinner(boxValues.box9);
-		// 	} else if (
-		// 		boxValues.box1 &&
-		// 		boxValues.box4 &&
-		// 		boxValues.box7 &&
-		// 		boxValues.box1 === boxValues.box4 &&
-		// 		boxValues.box4 === boxValues.box7
-		// 	) {
-		// 		setIsGameOver(true);
-		// 		setWinner(boxValues.box7);
-		// 	} else if (
-		// 		boxValues.box2 &&
-		// 		boxValues.box5 &&
-		// 		boxValues.box8 &&
-		// 		boxValues.box2 === boxValues.box5 &&
-		// 		boxValues.box5 === boxValues.box8
-		// 	) {
-		// 		setIsGameOver(true);
-		// 		setWinner(boxValues.box8);
-		// 	} else if (
-		// 		boxValues.box3 &&
-		// 		boxValues.box6 &&
-		// 		boxValues.box9 &&
-		// 		boxValues.box3 === boxValues.box6 &&
-		// 		boxValues.box6 === boxValues.box9
-		// 	) {
-		// 		setIsGameOver(true);
-		// 		setWinner(boxValues.box9);
-		// 	} else if (
-		// 		boxValues.box1 &&
-		// 		boxValues.box5 &&
-		// 		boxValues.box9 &&
-		// 		boxValues.box1 === boxValues.box5 &&
-		// 		boxValues.box5 === boxValues.box9
-		// 	) {
-		// 		setIsGameOver(true);
-		// 		setWinner(boxValues.box9);
-		// 	} else if (
-		// 		boxValues.box3 &&
-		// 		boxValues.box5 &&
-		// 		boxValues.box7 &&
-		// 		boxValues.box3 === boxValues.box5 &&
-		// 		boxValues.box5 === boxValues.box7
-		// 	) {
-		// 		setIsGameOver(true);
-		// 		setWinner(boxValues.box7);
-		// 	}
-		// }
 	}, [lastInput, boxValues, isGameOver, handlUpdateValue, gameLevel, minimax]);
 
 	return (
 		<div
-			className="flex flex-col items-center justify-center h-screen 
-			bg-neutral-50"
+			className={`${inter.variable} font-sans flex flex-col items-center justify-center h-screen 
+			bg-neutral-50 `}
 		>
-			<div className="border text-2xl my-3 px-5 self-start self-start">
-				<span className="bg-slate-50"> Select Level: </span>
+			<p className="text-center border xsm:w-5/6 sm:w-80 caption-top text-2xl mb-5 py-2 bg-sky-800 rounded text-white">
+				Tic Tac Toe
+			</p>
+			<div className=" flex gap-x-10 border text-1.9xl my-3 px-5 xsm:w-5/6 sm:w-80">
+				<span className="bg-slate-50">Level: </span>
 				<select
 					name=""
 					id=""
 					defaultValue={0}
-					onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
-						setGameLevel(Number(event.target.value))
-					}
+					onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {
+						handleReset();
+						setGameLevel(Number(event.target.value));
+					}}
 				>
 					<option value={0}>Begginer</option>
 					<option value={1}>Advanced</option>
 				</select>
 			</div>
-			<table className="border-collapse xsm:w-5/6 sm:w-80 xsm:h-80 sm:h-80">
-				<caption className="border caption-top text-2xl mb-5">Tic Tac Toe</caption>
-				<caption className="border caption-top text-2xl mb-5">
-					Game Result:{' '}
+			<table className="border-collapse xsm:w-5/6 sm:w-80 xsm:h-80 sm:h-80 shadow-lg">
+				<caption
+					className={`border text-left caption-top text-1.9xl mb-5 pl-5 py-2 ${winner && isGameOver && lastInput === 'X' && 'bg-green-500'} ${winner && isGameOver && lastInput === 'O' && 'bg-red-100'} ${!winner && isGameOver && 'bg-yellow-100'}`}
+				>
+					Status:{' '}
 					{!lastInput
 						? 'Not Started'
 						: !isGameOver
 							? 'Playing'
 							: !winner
-								? 'Draw'
-								: `${winner} is Winner.`}
+								? 'Match Draw'
+								: ` ${winner}`}
 				</caption>
 				<tbody>
 					<tr>
 						<td
-							className="border border-neutral-500 border-4 cursor-pointer font-extrabold text-center 
-							align-middle text-6xl border-t-0 border-l-0 w-1/3 h-1/3"
+							className={`border border-neutral-500 border-4 cursor-pointer font-extrabold text-center 
+							align-middle text-6xl border-t-0 border-l-0 w-1/3 h-1/3 ${boxValues.box1 === 'X' ? 'text-sky-600' : 'text-violet-800'}`}
 							onClick={() => handlUpdateValue('box1')}
 						>
 							{boxValues.box1}
 						</td>
 						<td
-							className="border border-4 border-neutral-500 cursor-pointer font-extrabold text-center 
-							align-middle text-6xl border-t-0 w-1/3 h-1/3"
+							className={`border border-4 border-neutral-500 cursor-pointer font-extrabold text-center 
+							align-middle text-6xl border-t-0 w-1/3 h-1/3 ${boxValues.box2 === 'X' ? 'text-sky-600' : 'text-violet-800'}`}
 							onClick={() => handlUpdateValue('box2')}
 						>
 							{boxValues.box2}
 						</td>
 						<td
-							className="border border-4 border-neutral-500 cursor-pointer font-extrabold text-center
-							align-middle text-6xl border-t-0 border-r-0 w-1/3 h-1/3"
+							className={`border border-4 border-neutral-500 cursor-pointer font-extrabold text-center
+							align-middle text-6xl border-t-0 border-r-0 w-1/3 h-1/3  ${boxValues.box3 === 'X' ? 'text-sky-600' : 'text-violet-800'}`}
 							onClick={() => handlUpdateValue('box3')}
 						>
 							{boxValues.box3}
@@ -338,22 +252,22 @@ export default function Home() {
 					</tr>
 					<tr>
 						<td
-							className="border border-4 border-neutral-500 cursor-pointer font-extrabold text-center
-							align-middle text-6xl border-l-0 w-1/3 h-1/3"
+							className={`border border-4 border-neutral-500 cursor-pointer font-extrabold text-center
+							align-middle text-6xl border-l-0 w-1/3 h-1/3 ${boxValues.box4 === 'X' ? 'text-sky-600' : 'text-violet-800'}`}
 							onClick={() => handlUpdateValue('box4')}
 						>
 							{boxValues.box4}
 						</td>
 						<td
-							className="border border-4 border-neutral-500 cursor-pointer font-extrabold text-center
-							align-middle text-6xl w-1/3 h-1/3"
+							className={`border border-4 border-neutral-500 cursor-pointer font-extrabold text-center
+							align-middle text-6xl w-1/3 h-1/3 ${boxValues.box5 === 'X' ? 'text-sky-600' : 'text-violet-800'}`}
 							onClick={() => handlUpdateValue('box5')}
 						>
 							{boxValues.box5}
 						</td>
 						<td
-							className="border border-4 border-neutral-500 cursor-pointer font-extrabold text-center
-							align-middle text-6xl border-r-0 w-1/3 h-1/3"
+							className={`border border-4 border-neutral-500 cursor-pointer font-extrabold text-center
+							align-middle text-6xl border-r-0 w-1/3 h-1/3 ${boxValues.box6 === 'X' ? 'text-sky-600' : 'text-violet-800'}`}
 							onClick={() => handlUpdateValue('box6')}
 						>
 							{boxValues.box6}
@@ -361,22 +275,22 @@ export default function Home() {
 					</tr>
 					<tr>
 						<td
-							className="border border-4 border-neutral-500 font-extrabold cursor-pointer text-center
-							align-middle text-6xl border-l-0 border-b-0 w-1/3 h-1/3"
+							className={`border border-4 border-neutral-500 font-extrabold cursor-pointer text-center
+							align-middle text-6xl border-l-0 border-b-0 w-1/3 h-1/3 ${boxValues.box7 === 'X' ? 'text-sky-600' : 'text-violet-800'}`}
 							onClick={() => handlUpdateValue('box7')}
 						>
 							{boxValues.box7}
 						</td>
 						<td
-							className="border border-4 border-neutral-500 font-extrabold cursor-pointer text-center
-							align-middle text-6xl border-b-0 w-1/3 h-1/3"
+							className={`border border-4 border-neutral-500 font-extrabold cursor-pointer text-center
+							align-middle text-6xl border-b-0 w-1/3 h-1/3 ${boxValues.box8 === 'X' ? 'text-sky-600' : 'text-violet-800'}`}
 							onClick={() => handlUpdateValue('box8')}
 						>
 							{boxValues.box8}
 						</td>
 						<td
-							className="border border-4 border-neutral-500 font-extrabold cursor-pointer text-center
-							align-middle text-6xl border-r-0 border-b-0 w-1/3 h-1/3"
+							className={`border border-4 border-neutral-500 font-extrabold cursor-pointer text-center
+							align-middle text-6xl border-r-0 border-b-0 w-1/3 h-1/3 ${boxValues.box9 === 'X' ? 'text-sky-600' : 'text-violet-800'}`}
 							onClick={() => handlUpdateValue('box9')}
 						>
 							{boxValues.box9}
@@ -384,7 +298,7 @@ export default function Home() {
 					</tr>
 				</tbody>
 			</table>
-			<button className="mt-3 border px-5 py-2" onClick={handleReset}>
+			<button className="mt-3 border px-5 py-2 bg-sky-900 rounded text-white" onClick={handleReset}>
 				Start Again
 			</button>
 		</div>
