@@ -2,7 +2,7 @@
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always",
-    "source.fixAll.prettier": true
+    "source.fixAll.prettier": "always"
   },
   "editor.insertSpaces": false, // Use tabs instead of spaces
   "editor.tabSize": 2, // Set tab size to 4 spaces visually

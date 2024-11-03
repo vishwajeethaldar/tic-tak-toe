@@ -40,8 +40,7 @@ const winningCombinations: [
 ];
 
 export default function Home() {
-	const [boxValues, setBoxValues] =
-		useState<InitialStateValuesInterface>(initialStateValues);
+	const [boxValues, setBoxValues] = useState<InitialStateValuesInterface>(initialStateValues);
 	const [lastInput, setLastInput] = useState<string | null>(null);
 	const [isGameOver, setIsGameOver] = useState(() => {
 		return Object.values(boxValues)?.filter(Boolean).length === 9;
@@ -58,7 +57,7 @@ export default function Home() {
 			// If it's the first move, set the input as "X"
 			if (!lastInput) {
 				setLastInput('X');
-				setBoxValues((prevState) => ({
+				setBoxValues((prevState: InitialStateValuesInterface) => ({
 					...prevState,
 					[boxId]: 'X',
 				}));
@@ -68,7 +67,7 @@ export default function Home() {
 			// Toggle between "X" and "O"
 			const newInput = lastInput === 'X' ? 'O' : 'X';
 			setLastInput(newInput);
-			setBoxValues((prevState) => ({
+			setBoxValues((prevState: InitialStateValuesInterface) => ({
 				...prevState,
 				[boxId]: newInput,
 			}));
@@ -77,11 +76,7 @@ export default function Home() {
 	);
 
 	const minimax = useCallback(
-		(
-			state: InitialStateValuesInterface,
-			depth: number,
-			isMaximizing: boolean,
-		): number => {
+		(state: InitialStateValuesInterface, depth: number, isMaximizing: boolean): number => {
 			const scores: { [key: string]: number } = { X: -1, O: 1, draw: 0 };
 
 			// Check for a terminal state
@@ -91,7 +86,7 @@ export default function Home() {
 				}
 			}
 
-			const isDraw = Object.values(state).every((val) => val !== null);
+			const isDraw = Object.values(state).every((val: string) => val !== null);
 			if (isDraw) return scores.draw;
 
 			if (isMaximizing) {
@@ -156,7 +151,7 @@ export default function Home() {
 		function computerMove() {
 			// Get a list of empty boxes
 			const emptyBoxes = Object.keys(boxValues).filter(
-				(key) => !boxValues[key as keyof InitialStateValuesInterface],
+				(key: string) => !boxValues[key as keyof InitialStateValuesInterface],
 			) as (keyof InitialStateValuesInterface)[];
 
 			// If there are no empty boxes or game is over, return
@@ -179,19 +174,14 @@ export default function Home() {
 				handlUpdateValue(bestMove);
 			} else {
 				// Select a random box for the computer's move
-				const randomBox =
-					emptyBoxes[Math.floor(Math.random() * emptyBoxes.length)];
+				const randomBox = emptyBoxes[Math.floor(Math.random() * emptyBoxes.length)];
 				handlUpdateValue(randomBox);
 			}
 		}
 
 		function checkForWinner() {
 			for (const [a, b, c] of winningCombinations) {
-				if (
-					boxValues[a] &&
-					boxValues[a] === boxValues[b] &&
-					boxValues[a] === boxValues[c]
-				) {
+				if (boxValues[a] && boxValues[a] === boxValues[b] && boxValues[a] === boxValues[c]) {
 					setWinner(boxValues[a]);
 					setIsGameOver(true);
 					return true;
@@ -302,16 +292,16 @@ export default function Home() {
 					name=""
 					id=""
 					defaultValue={0}
-					onChange={(event) => setGameLevel(Number(event.target.value))}
+					onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
+						setGameLevel(Number(event.target.value))
+					}
 				>
 					<option value={0}>Begginer</option>
 					<option value={1}>Advanced</option>
 				</select>
 			</div>
 			<table className="border-collapse xsm:w-5/6 sm:w-80 xsm:h-80 sm:h-80">
-				<caption className="border caption-top text-2xl mb-5">
-					Tic Tac Toe
-				</caption>
+				<caption className="border caption-top text-2xl mb-5">Tic Tac Toe</caption>
 				<caption className="border caption-top text-2xl mb-5">
 					Game Result:{' '}
 					{!lastInput

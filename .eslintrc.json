@@ -4,10 +4,15 @@
   ],
 "plugins": ["prettier"],
   "rules": {
+     "arrow-parens": ["error", "as-needed"],
     "arrow-body-style": "off",
-    "prettier/prettier": "error",
+    // "prettier/prettier": ["error",{
+    //             "printWidth": 85, // Adjust the print width as needed
+    //             "singleQuote": true,
+    //             "trailingComma": "all"
+    //         }],
     "no-console": "error",
-    "max-len": ["error", { "code": 85, "tabWidth": 4, "ignorePattern": "^\\s*\\w+" }],
+    // "max-len": ["error", { "code": 85, "ignoreComments":true,"ignoreStrings": true, "ignoreTemplateLiterals": true }],
     "prefer-arrow-callback": "off"
   }
 }
